@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 import Providers from './providers';
 import Header from './components/layout/Header';
-import { SearchProvider } from './_contexts/useSearchContext';
+import { SearchProvider } from './_contexts/SearchContext';
 
 export default function RootLayout({
   children,
