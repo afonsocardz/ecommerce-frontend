@@ -10,6 +10,8 @@ export const metadata: Metadata = {
 };
 
 import Providers from './providers';
+import Header from './components/layout/Header';
+import { SearchProvider } from './_contexts/useSearchContext';
 
 export default function RootLayout({
   children,
@@ -20,7 +22,10 @@ export default function RootLayout({
     <html lang="en">
       <body className="flex flex-col bg-gray-100">
         <Providers>
+          <SearchProvider>
+            <Header />
             {children}
+          </SearchProvider>
         </Providers>
       </body>
     </html>
