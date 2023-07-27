@@ -3,7 +3,7 @@
 import useProducts from '@/app/_hooks/useProducts';
 import ProductItem from './ProductItem';
 import { useState, useEffect } from 'react';
-import { useSearchContext } from '@/app/_contexts/useSearchContext';
+import { useSearchContext } from '@/app/_contexts/SearchContext';
 
 export default function ProductsList() {
   const { searchTerm } = useSearchContext();
@@ -24,7 +24,7 @@ export default function ProductsList() {
 
   return (
     <div className="my-4">
-      <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <ul className="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {data.products.map((product) => (
           <ProductItem key={product.id} product={product} />
         ))}
