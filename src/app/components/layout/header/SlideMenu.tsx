@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import SearchInput from '../SearchInput';
+import SearchInput from './SearchInput';
 import { DisclosureHook } from '@/app/_hooks/useDisclosure';
 
 interface SlideMenuProps extends DisclosureHook {}

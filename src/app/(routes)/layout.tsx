@@ -1,4 +1,6 @@
 import './globals.css';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
@@ -10,8 +12,8 @@ export const metadata: Metadata = {
 };
 
 import Providers from './providers';
-import Header from './components/layout/Header';
-import { SearchProvider } from './_contexts/SearchContext';
+import Header from '../components/layout/header/Header';
+import { AuthProvider } from '../_contexts/AuthContext';
 
 export default function RootLayout({
   children,
@@ -19,13 +21,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="flex flex-col bg-gray-100">
+    <html className="h-full bg-gray-100" lang="en">
+      <body className="h-full flex flex-col bg-gray-100">
         <Providers>
-          <SearchProvider>
+          <AuthProvider>
             <Header />
-            {children}
-          </SearchProvider>
+            <div className="pt-24 container mx-auto p-4">{children}</div>
+            <ToastContainer />
+          </AuthProvider>
         </Providers>
       </body>
     </html>
