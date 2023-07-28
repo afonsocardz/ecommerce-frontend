@@ -2,18 +2,18 @@
 
 import useProducts from '@/app/_hooks/useProducts';
 import ProductItem from './ProductItem';
-import { useState, useEffect } from 'react';
-import { useSearchContext } from '@/app/_contexts/SearchContext';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 export default function ProductsList() {
-  const { searchTerm } = useSearchContext();
-  const query = useProducts();
-  const [page, setPage] = useState(1);
-  const { data, isLoading } = query.getAllProducts(searchTerm, page);
+  const navigate = useRouter();
+  const searchParams = useSearchParams();
 
-  useEffect(() => {
-    setPage((prev) => 1);
-  }, [searchTerm]);
+  const search = searchParams.get('search') ?? '';
+  const pageParam = searchParams.get('page') ?? '1';
+  const page = parseInt(pageParam);
+
+  const query = useProducts();
+  const { data, isLoading } = query.getAllProducts(search, +page);
 
   if (isLoading || !data) {
     return <h1>Loading</h1>;
@@ -33,7 +33,7 @@ export default function ProductsList() {
       <div className="flex items-center justify-center mt-4">
         <button
           onClick={() => {
-            setPage((prev) => page - 1);
+            navigate.push(`/products?search=${search}&page=${page - 1}`);
           }}
           disabled={isFirsPage}
           className={`mr-2 px-3 py-2 bg-gray-300 text-gray-800 rounded`}
@@ -47,7 +47,7 @@ export default function ProductsList() {
 
         <button
           onClick={() => {
-            setPage((prev) => page + 1);
+            navigate.push(`/products?search=${search}&page=${page + 1}`);
           }}
           disabled={isLastPage}
           className="ml-2 px-3 py-2 bg-gray-300 text-gray-800 rounded"

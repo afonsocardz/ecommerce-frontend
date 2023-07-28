@@ -1,15 +1,14 @@
 import React from 'react';
-import { useSearchContext } from '../_contexts/SearchContext';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { useRouter } from 'next/navigation';
 
 export default function SearchInput() {
-  const { setSearchTerm } = useSearchContext();
-
+  const { push: navigate } = useRouter();
   function handleSearch(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const searchTerm = formData.get('search') as string;
-    setSearchTerm(searchTerm);
+    navigate(`/products?search=${searchTerm}`);
   }
   return (
     <form onSubmit={handleSearch} className="flex items-center space-x-4">
