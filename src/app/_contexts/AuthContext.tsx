@@ -1,7 +1,7 @@
 'use client';
 import { api } from '@/config/axiosConfig';
 import { useQuery } from '@tanstack/react-query';
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext } from 'react';
 
 interface InitialContextValue {
   isLogged: boolean;
@@ -17,14 +17,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { data } = useQuery<boolean>({
     queryKey: ['status'],
     queryFn: async () => {
-      const { status } = await api.request('auth/status', {
-        withCredentials: true,
-      });
-      return status === 200;
+      try {
+        const { status } = await api.request('auth/status', {
+          withCredentials: true,
+        });
+        return status === 200;
+      } catch (error) {
+        return false;
+      }
     },
   });
 
-  const isLogged = !data ? false : data;
+  const isLogged = data !== undefined ? data : false;
+
+  console.log(isLogged);
 
   return (
     <AuthContext.Provider value={{ isLogged }}>{children}</AuthContext.Provider>
