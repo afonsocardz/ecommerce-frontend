@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 import Providers from './providers';
 import Header from '../components/layout/header/Header';
 import { AuthProvider } from '../_contexts/AuthContext';
+import CartProvider from '../_contexts/CartContext';
 
 export default function RootLayout({
   children,
@@ -25,9 +26,11 @@ export default function RootLayout({
       <body className="h-full flex flex-col bg-gray-100">
         <Providers>
           <AuthProvider>
-            <Header />
-            <div className="pt-24 container mx-auto p-4">{children}</div>
-            <ToastContainer />
+            <CartProvider>
+              <Header />
+              <div className="pt-24 container mx-auto p-4">{children}</div>
+              <ToastContainer />
+            </CartProvider>
           </AuthProvider>
         </Providers>
       </body>
