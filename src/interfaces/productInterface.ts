@@ -1,4 +1,4 @@
-export interface ProductResponseData {
+export interface Product {
   id: number;
   name: string;
   description: string;
@@ -9,5 +9,5 @@ export interface ProductResponseData {
 export interface ProductsResponse {
   totalPages: number;
   currentPage: number;
-  products: ProductResponseData[];
+  products: Product[];
 }
