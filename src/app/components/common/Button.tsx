@@ -7,6 +7,10 @@ interface ButtonProps {
   loading?: boolean;
 }
 
+const classes = {
+  disabled: 'disabled:bg-gray-300 disabled:text-black',
+};
+
 export default function Button({
   text,
   loading = false,
@@ -14,7 +18,10 @@ export default function Button({
   ...rest
 }: ButtonProps) {
   return (
-    <button {...rest} className={`flex items-center ${className}`}>
+    <button
+      {...rest}
+      className={`flex items-center justify-center ${className} ${classes.disabled}`}
+    >
       {loading && <ButtonSpinner />}
       {text}
     </button>
