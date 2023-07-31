@@ -3,6 +3,7 @@
 import useProducts from '@/app/_hooks/useProducts';
 import ProductItem from './ProductItem';
 import { useSearchParams, useRouter } from 'next/navigation';
+import useCartProducts from '@/app/_hooks/useCartProducts';
 
 export default function ProductsList() {
   const navigate = useRouter();
@@ -15,6 +16,10 @@ export default function ProductsList() {
   const query = useProducts();
   const { data, isLoading } = query.getAllProducts(search, +page);
 
+  const { getCartProductsQuery } = useCartProducts();
+  const getCart = getCartProductsQuery();
+  const cartSet = new Set(getCart.data?.map((product) => product.productId));
+
   if (isLoading || !data) {
     return <h1>Loading</h1>;
   }
@@ -25,8 +30,8 @@ export default function ProductsList() {
   return (
     <div className="my-4">
       <ul className="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {data.products.map((product) => (
-          <ProductItem key={product.id} product={product} />
+        {data?.products.map((product) => (
+          <ProductItem key={product.id} product={product} cartSet={cartSet} />
         ))}
       </ul>
 
