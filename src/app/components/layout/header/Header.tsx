@@ -9,12 +9,15 @@ import useDisclosure from '@/app/_hooks/useDisclosure';
 import Link from 'next/link';
 import Button from '../../common/Button';
 import useAuth from '@/app/_hooks/useAuth';
+import { useCartContext } from '@/app/_contexts/CartContext';
+import CartMenu from '../../cart/CartMenu';
 
 export default function Header() {
   const { isLogged } = useAuthContext();
   const disclosure = useDisclosure();
-  const query = useCartProducts();
-  const { data } = query.getCartProductsQuery();
+  const openCartMenu = useDisclosure();
+
+  const { data } = useCartContext().getCart;
   const cartItemCount = data ? data.length : 0;
 
   const { mutate } = useAuth().logoutQuery();
@@ -31,10 +34,14 @@ export default function Header() {
         </Link>
         {isLogged && (
           <>
-            <div className="bg-white text-blue-500 rounded-full h-8 w-8 flex items-center justify-center">
+            <button
+              onClick={() => openCartMenu.setOpen(!openCartMenu.open)}
+              className="bg-white text-blue-500 rounded-full h-8 w-8 flex items-center justify-center"
+            >
               <ShoppingCartIcon className="h-6 w-6" />
-            </div>
+            </button>
             <span className="text-white">{cartItemCount}</span>
+            <CartMenu {...openCartMenu} />
           </>
         )}
       </div>
