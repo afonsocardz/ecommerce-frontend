@@ -30,8 +30,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const isLogged = data !== undefined ? data : false;
 
-  console.log(isLogged);
-
   return (
     <AuthContext.Provider value={{ isLogged }}>{children}</AuthContext.Provider>
   );
