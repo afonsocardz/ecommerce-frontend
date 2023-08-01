@@ -36,9 +36,8 @@ export default function ProductItem({
         <Image
           src={imageUrl}
           alt={name}
-          layout="fill"
-          objectFit="cover"
-          className="rounded"
+          fill
+          className="rounded object-cover"
         />
       </div>
       <div>
