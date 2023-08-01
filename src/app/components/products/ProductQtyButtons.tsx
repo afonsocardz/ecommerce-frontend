@@ -23,8 +23,9 @@ export default function ProductQtyButtons({
   const handleRemove = () => {
     if (cartItem.quantity - 1 === 0) {
       removeCart.mutate(cartItem.id);
+    } else {
+      updateCart.mutate(cartItem.quantity - 1);
     }
-    updateCart.mutate(cartItem.quantity - 1);
   };
 
   return (
