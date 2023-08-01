@@ -1,7 +1,8 @@
 'use client';
 
-import CheckoutForm from '@/app/components/checkout/CheckoutForm';
+import { redirect } from 'next/navigation';
 
-export default function Checkout() {
-  return <CheckoutForm />;
+export default function CheckoutPage() {
+  redirect('/products');
+  return <></>;
 }

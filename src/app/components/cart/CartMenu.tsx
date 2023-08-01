@@ -6,6 +6,7 @@ import { DisclosureHook } from '@/app/_hooks/useDisclosure';
 import { useCartContext } from '@/app/_contexts/CartContext';
 import useCartProducts from '@/app/_hooks/useCartProducts';
 import { CartProductResponseData } from '@/interfaces/cartProductInterface';
+import useCheckout from '@/app/_hooks/useCheckout';
 
 export default function CartMenu({
   open,
@@ -137,6 +138,13 @@ interface CartCheckoutInfoProps {
 }
 
 function CartCheckoutInfo({ subtotal, setOpen }: CartCheckoutInfoProps) {
+  const { createCheckout } = useCheckout();
+  const { mutate } = createCheckout();
+
+  function onCreateOrder() {
+    mutate();
+    setOpen(false);
+  }
   return (
     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
       <div className="flex justify-between text-base font-medium text-gray-900">
@@ -147,12 +155,12 @@ function CartCheckoutInfo({ subtotal, setOpen }: CartCheckoutInfoProps) {
         Frete será calculado no checkout
       </p>
       <div className="mt-6">
-        <a
-          href="#"
+        <button
+          onClick={onCreateOrder}
           className="flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blue-700"
         >
           Checkout
-        </a>
+        </button>
       </div>
       <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
         <p>
