@@ -20,8 +20,12 @@ export default function ProductsList() {
   const getCart = getCartProductsQuery();
   const cartSet = new Set(getCart.data?.map((product) => product.productId));
 
-  if (isLoading || !data) {
+  if (isLoading) {
     return <h1>Loading</h1>;
+  }
+
+  if (data.products.length === 0) {
+    return <h1>Nenhum produto encontrado!</h1>;
   }
 
   const isFirsPage = page - 1 < 1;
@@ -30,7 +34,7 @@ export default function ProductsList() {
   return (
     <div className="my-4">
       <ul className="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {data?.products.map((product) => (
+        {data.products.map((product) => (
           <ProductItem key={product.id} product={product} cartSet={cartSet} />
         ))}
       </ul>
