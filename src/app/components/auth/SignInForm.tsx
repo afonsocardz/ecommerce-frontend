@@ -40,7 +40,7 @@ export default function SignInForm() {
             </label>
             <div className="mt-2">
               <input
-                value={'example@example.com'}
+                defaultValue={'example@example.com'}
                 ref={emailRef}
                 id="email"
                 name="email"
@@ -71,7 +71,7 @@ export default function SignInForm() {
             </div>
             <div className="mt-2">
               <input
-                value={'StrongP@assw0rd'}
+                defaultValue={'StrongP@assw0rd'}
                 ref={passRef}
                 id="password"
                 name="password"
