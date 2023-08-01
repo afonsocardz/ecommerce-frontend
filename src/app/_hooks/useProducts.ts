@@ -7,6 +7,7 @@ export default function useProducts() {
     useQuery<ProductsResponse>({
       queryKey: ['products', { search, page }],
       queryFn: async () => await productsService.getAllProducts(search, page),
+      suspense: true,
     });
 
   return { getAllProducts };
