@@ -3,6 +3,9 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import SearchInput from './SearchInput';
 import { DisclosureHook } from '@/app/_hooks/useDisclosure';
+import { useAuthContext } from '@/app/_contexts/AuthContext';
+import Button from '../../common/Button';
+import useAuth from '@/app/_hooks/useAuth';
 
 interface SlideMenuProps extends DisclosureHook {}
 
@@ -10,6 +13,12 @@ export default function SlideMenu({
   open: menuOpen,
   setOpen: setMenuOpen,
 }: SlideMenuProps): React.ReactElement {
+  const { isLogged } = useAuthContext();
+  const { mutate } = useAuth().logoutQuery();
+
+  function onLogoutButton() {
+    mutate();
+  }
   return (
     <Transition.Root show={menuOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setMenuOpen}>
@@ -62,12 +71,22 @@ export default function SlideMenu({
                     <div className="px-4 sm:px-6">
                       <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
                         <div className=" space-x-4">
-                          <button className="bg-white text-blue-500 px-4 py-2 rounded-lg">
-                            Login
-                          </button>
-                          <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
-                            Cadastro
-                          </button>
+                          {isLogged ? (
+                            <Button
+                              className="bg-white text-blue-500 px-4 py-2 rounded-lg"
+                              text={'Logout'}
+                              onClick={onLogoutButton}
+                            />
+                          ) : (
+                            <>
+                              <button className="bg-white text-blue-500 px-4 py-2 rounded-lg">
+                                Login
+                              </button>
+                              <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
+                                Cadastro
+                              </button>
+                            </>
+                          )}
                         </div>
                       </Dialog.Title>
                     </div>
