@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 export default function usePayment() {
   const client = useQueryClient();
   const navigate = useRouter();
-  const createPayment = () =>
+  const useCreatePayment = () =>
     useMutation({
       mutationFn: async (orderId: number) =>
         await paymentService.createPayment(orderId),
@@ -17,5 +17,5 @@ export default function usePayment() {
         navigate.push(`/products`);
       },
     });
-  return { createPayment };
+  return { useCreatePayment };
 }

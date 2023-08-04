@@ -11,13 +11,13 @@ import { NOTIFICATION_MESSAGES } from '@/constants/notificationMessages';
 
 export default function useCartProducts() {
   const client = useQueryClient();
-  const getCartProductsQuery = () =>
+  const useGetCartProductsQuery = () =>
     useQuery({
       queryKey: ['cart-products'],
       queryFn: async () => await getCartProducts(),
     });
 
-  const addCartProductQuery = () =>
+  const useAddCartProductQuery = () =>
     useMutation({
       mutationFn: async (body: AddCartProductBody) =>
         await addCartProduct(body),
@@ -27,7 +27,7 @@ export default function useCartProducts() {
       },
     });
 
-  const removeProductQuery = () =>
+  const useRemoveProductQuery = () =>
     useMutation({
       mutationFn: async (cartProductId: number) =>
         await removeCartProduct(cartProductId),
@@ -36,7 +36,7 @@ export default function useCartProducts() {
       },
     });
 
-  const updateProductQtyQuery = (cartId: number) =>
+  const useUpdateProductQtyQuery = (cartId: number) =>
     useMutation({
       mutationFn: async (quantity: number) =>
         await updateCartQty(quantity, cartId),
@@ -45,9 +45,9 @@ export default function useCartProducts() {
       },
     });
   return {
-    getCartProductsQuery,
-    addCartProductQuery,
-    removeProductQuery,
-    updateProductQtyQuery,
+    useGetCartProductsQuery,
+    useAddCartProductQuery,
+    useRemoveProductQuery,
+    useUpdateProductQtyQuery,
   };
 }

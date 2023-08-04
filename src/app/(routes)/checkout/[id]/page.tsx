@@ -11,7 +11,7 @@ interface CheckoutProps {
 }
 
 export default function Checkout({ params }: CheckoutProps) {
-  const { data, isLoading } = useCheckout().getCheckout(+params.id);
+  const { data, isLoading } = useCheckout().useGetCheckout(+params.id);
 
   if (isLoading) {
     return <p>Loading Checkout</p>;

@@ -20,7 +20,7 @@ export default function Header() {
   const { data } = useCartContext().getCart;
   const cartItemCount = data ? data.length : 0;
 
-  const { mutate } = useAuth().logoutQuery();
+  const { mutate } = useAuth().useLogoutQuery();
 
   function onClickLogout(): void {
     mutate();

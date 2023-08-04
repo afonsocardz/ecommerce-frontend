@@ -9,7 +9,7 @@ export default function useAuth() {
   const { push: navigate } = useRouter();
   const client = useQueryClient();
 
-  const signInQuery = () =>
+  const useSignInQuery = () =>
     useMutation({
       mutationFn: async ({ email, password }: LoginData) =>
         await authService.signIn(email, password),
@@ -23,7 +23,7 @@ export default function useAuth() {
       },
     });
 
-  const logoutQuery = () =>
+  const useLogoutQuery = () =>
     useMutation({
       mutationFn: async () => await authService.logout(),
       onSuccess: async () => {
@@ -35,7 +35,7 @@ export default function useAuth() {
     });
 
   return {
-    logoutQuery,
-    signInQuery,
+    useLogoutQuery,
+    useSignInQuery,
   };
 }

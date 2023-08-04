@@ -12,7 +12,7 @@ const initialCheckout: Order = {
 
 export default function useCheckout() {
   const navigate = useRouter();
-  const createCheckout = () =>
+  const useCreateCheckout = () =>
     useMutation({
       mutationFn: async () => await checkoutService.createCheckout(),
       onSuccess: (data) => {
@@ -20,7 +20,7 @@ export default function useCheckout() {
       },
     });
 
-  const getCheckout = (orderId: number) =>
+  const useGetCheckout = (orderId: number) =>
     useQuery({
       queryKey: ['order', orderId],
       queryFn: async () => await checkoutService.getCheckout(orderId),
@@ -28,5 +28,5 @@ export default function useCheckout() {
       staleTime: 0,
       suspense: true,
     });
-  return { createCheckout, getCheckout };
+  return { useCreateCheckout, useGetCheckout };
 }

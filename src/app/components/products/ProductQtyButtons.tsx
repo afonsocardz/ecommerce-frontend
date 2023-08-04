@@ -10,11 +10,11 @@ interface ProductQtyButtonsProps {
 export default function ProductQtyButtons({
   cartItem,
 }: ProductQtyButtonsProps) {
-  const { updateProductQtyQuery, removeProductQuery } = useCartProducts();
+  const { useUpdateProductQtyQuery, useRemoveProductQuery } = useCartProducts();
 
-  const updateCart = updateProductQtyQuery(cartItem.id);
+  const updateCart = useUpdateProductQtyQuery(cartItem.id);
 
-  const removeCart = removeProductQuery();
+  const removeCart = useRemoveProductQuery();
 
   const handleAdd = () => {
     updateCart.mutate(cartItem.quantity + 1);

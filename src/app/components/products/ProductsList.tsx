@@ -4,20 +4,24 @@ import useProducts from '@/app/_hooks/useProducts';
 import ProductItem from './ProductItem';
 import { useSearchParams, useRouter } from 'next/navigation';
 import useCartProducts from '@/app/_hooks/useCartProducts';
+import SignInAlertModal from '../modal/SignInAlertModal';
+import useDisclosure from '@/app/_hooks/useDisclosure';
 
 export default function ProductsList() {
   const navigate = useRouter();
   const searchParams = useSearchParams();
+
+  const openModal = useDisclosure();
 
   const search = searchParams.get('search') ?? '';
   const pageParam = searchParams.get('page') ?? '1';
   const page = parseInt(pageParam);
 
   const query = useProducts();
-  const { data, isLoading } = query.getAllProducts(search, +page);
+  const { data, isLoading } = query.useGetAllProducts(search, +page);
 
-  const { getCartProductsQuery } = useCartProducts();
-  const getCart = getCartProductsQuery();
+  const { useGetCartProductsQuery } = useCartProducts();
+  const getCart = useGetCartProductsQuery();
   const cartSet = new Set(getCart.data?.map((product) => product.productId));
 
   if (isLoading) {
@@ -33,9 +37,15 @@ export default function ProductsList() {
 
   return (
     <div className="my-4">
+      <SignInAlertModal {...openModal} />
       <ul className="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {data.products.map((product) => (
-          <ProductItem key={product.id} product={product} cartSet={cartSet} />
+          <ProductItem
+            key={product.id}
+            product={product}
+            cartSet={cartSet}
+            setModal={openModal.setOpen}
+          />
         ))}
       </ul>
 

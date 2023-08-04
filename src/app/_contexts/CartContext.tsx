@@ -14,8 +14,8 @@ const CartContext = createContext({} as InitialContext);
 export const useCartContext = () => useContext(CartContext);
 
 export default function CartProvider({ children }: { children: ReactNode }) {
-  const { getCartProductsQuery } = useCartProducts();
-  const getCart = getCartProductsQuery();
+  const { useGetCartProductsQuery } = useCartProducts();
+  const getCart = useGetCartProductsQuery();
 
   const cartSet = new Set(getCart.data?.map((product) => product.productId));
 

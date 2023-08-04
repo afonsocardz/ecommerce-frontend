@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
+import Image from 'next/image';
 import { RadioGroup } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/20/solid';
-import { Order, PaymentStatus } from '@/interfaces/checkoutInterface';
+import { Order } from '@/interfaces/checkoutInterface';
 import usePayment from '@/app/_hooks/usePayment';
 import Button from '../common/Button';
 import { useRouter } from 'next/navigation';
@@ -34,7 +35,7 @@ export default function CheckoutForm({ data }: CheckoutFormProps) {
 
   const navigate = useRouter();
 
-  const { mutate, isLoading } = usePayment().createPayment();
+  const { mutate, isLoading } = usePayment().useCreatePayment();
 
   function onSubmitHandler(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -413,7 +414,7 @@ export default function CheckoutForm({ data }: CheckoutFormProps) {
                   data.OrderProduct.map(({ Product: product, quantity }) => (
                     <li key={product.id} className="flex py-6 px-4 sm:px-6">
                       <div className="flex-shrink-0">
-                        <img
+                        <Image
                           src={product.imageUrl}
                           alt={product.description}
                           className="w-20 rounded-md"

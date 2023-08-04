@@ -1,5 +1,6 @@
 'use client';
 import React, { Fragment } from 'react';
+import Image from 'next/image';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { DisclosureHook } from '@/app/_hooks/useDisclosure';
@@ -85,8 +86,8 @@ interface CartProductListProps {
 }
 
 function CartProductList({ cart }: CartProductListProps) {
-  const { removeProductQuery } = useCartProducts();
-  const removeProduct = removeProductQuery();
+  const { useRemoveProductQuery } = useCartProducts();
+  const removeProduct = useRemoveProductQuery();
   return (
     <div className="mt-8">
       <div className="flow-root">
@@ -94,7 +95,7 @@ function CartProductList({ cart }: CartProductListProps) {
           {cart.map(({ Product: product, quantity, id }) => (
             <li key={product.id} className="flex py-6">
               <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                <img
+                <Image
                   src={product.imageUrl}
                   alt={product.description}
                   className="h-full w-full object-cover object-center"
@@ -138,8 +139,8 @@ interface CartCheckoutInfoProps {
 }
 
 function CartCheckoutInfo({ subtotal, setOpen }: CartCheckoutInfoProps) {
-  const { createCheckout } = useCheckout();
-  const { mutate } = createCheckout();
+  const { useCreateCheckout } = useCheckout();
+  const { mutate } = useCreateCheckout();
 
   function onCreateOrder() {
     mutate();

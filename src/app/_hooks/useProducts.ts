@@ -9,7 +9,7 @@ const initialProducts: ProductsResponse = {
 };
 
 export default function useProducts() {
-  const getAllProducts = (search: string, page?: number) =>
+  const useGetAllProducts = (search: string, page?: number) =>
     useQuery<ProductsResponse>({
       queryKey: ['products', { search, page }],
       queryFn: async () => await productsService.getAllProducts(search, page),
@@ -18,5 +18,5 @@ export default function useProducts() {
       staleTime: 0,
     });
 
-  return { getAllProducts };
+  return { useGetAllProducts };
 }

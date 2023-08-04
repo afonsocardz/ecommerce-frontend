@@ -14,7 +14,7 @@ export default function SlideMenu({
   setOpen: setMenuOpen,
 }: SlideMenuProps): React.ReactElement {
   const { isLogged } = useAuthContext();
-  const { mutate } = useAuth().logoutQuery();
+  const { mutate } = useAuth().useLogoutQuery();
 
   function onLogoutButton() {
     mutate();

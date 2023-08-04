@@ -5,29 +5,39 @@ import Button from '../common/Button';
 import { Product } from '@/interfaces/productInterface';
 import { useCartContext } from '@/app/_contexts/CartContext';
 import ProductQtyButtons from './ProductQtyButtons';
+import { Dispatch, SetStateAction } from 'react';
+import { useAuthContext } from '@/app/_contexts/AuthContext';
 
 interface ProductItemProps {
   product: Product;
   cartSet: Set<number>;
+  setModal: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function ProductItem({
   product,
   cartSet,
+  setModal,
 }: ProductItemProps): React.ReactElement {
   const { imageUrl, name, description, price, id } = product;
+
+  const { isLogged } = useAuthContext();
 
   const { getCart } = useCartContext();
   const cartData = getCart.data ?? [];
   const cart = cartData.find((cart) => cart.productId === id);
 
-  const { addCartProductQuery } = useCartProducts();
-  const addCart = addCartProductQuery();
+  const { useAddCartProductQuery } = useCartProducts();
+  const addCart = useAddCartProductQuery();
 
   const isProductInCart = cartSet.has(id);
 
   function onClickAddButton() {
     addCart.mutate({ productId: id, quantity: 1 });
+  }
+
+  function onClickOpenModal() {
+    setModal(true);
   }
 
   return (
@@ -53,7 +63,7 @@ export default function ProductItem({
             isProductInCart ? 'bg-red-500' : 'bg-blue-500'
           } text-white px-4 py-2 rounded-md`}
           text={'Adicionar ao Carrinho'}
-          onClick={onClickAddButton}
+          onClick={isLogged ? onClickAddButton : onClickOpenModal}
           loading={addCart.isLoading}
         />
       )}

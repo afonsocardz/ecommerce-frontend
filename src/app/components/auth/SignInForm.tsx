@@ -5,8 +5,8 @@ import { useRef } from 'react';
 import Button from '../common/Button';
 
 export default function SignInForm() {
-  const { signInQuery } = useAuth();
-  const { mutate, isLoading } = signInQuery();
+  const { useSignInQuery } = useAuth();
+  const { mutate, isLoading } = useSignInQuery();
   const emailRef = useRef<HTMLInputElement>(null);
   const passRef = useRef<HTMLInputElement>(null);
 
