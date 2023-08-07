@@ -1,9 +1,7 @@
-interface ButtonProps {
-  type?: 'button' | 'submit' | 'reset' | undefined;
-  onClick?: () => void;
-  className: string;
+import { ButtonHTMLAttributes } from 'react';
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;
-  disabled?: boolean;
   loading?: boolean;
 }
 

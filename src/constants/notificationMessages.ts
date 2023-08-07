@@ -5,7 +5,7 @@ export const NOTIFICATION_MESSAGES = {
     logout: 'Logout feito com sucesso!',
     addProduct: 'Produto adicionado ao carrinho!',
     removeProduct: 'Produto removido!',
-    payment: 'Confirmação de pagamento enviada por e-mail',
+    payment: 'Abrir e-mail',
   },
   error: {
     login: 'Senha ou e-mail incorretos!',

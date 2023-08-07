@@ -26,7 +26,7 @@ export default function RootLayout({
         <Providers>
           <AuthProvider>
             <Header />
-            <div className="pt-24 container mx-auto p-4">{children}</div>
+            <div className="pt-32 container mx-auto p-4">{children}</div>
             <ToastContainer />
           </AuthProvider>
         </Providers>

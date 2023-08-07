@@ -7,7 +7,10 @@ import { CheckCircleIcon } from '@heroicons/react/20/solid';
 import { Order } from '@/interfaces/checkoutInterface';
 import usePayment from '@/app/_hooks/usePayment';
 import Button from '../common/Button';
-import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+import { NOTIFICATION_MESSAGES } from '@/constants/notificationMessages';
+import Link from 'next/link';
+import { LinkIcon } from '@heroicons/react/24/outline';
 
 const deliveryMethods = [
   {
@@ -37,7 +40,23 @@ export default function CheckoutForm({ data }: CheckoutFormProps) {
 
   function onSubmitHandler(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    mutate(data.id);
+    mutate(data.id, {
+      onSuccess: (data) => {
+        console.log(data);
+        toast.success(NOTIFICATION_MESSAGES.success.payment, {
+          closeButton: ({ closeToast }) => (
+            <Link
+              className="bg-blue-500 text-md h-full text-white rounded-md"
+              href={data.emailUrl}
+              onClick={closeToast}
+              target="_blank"
+            >
+              <LinkIcon className="h-16 w-16" />
+            </Link>
+          ),
+        });
+      },
+    });
   }
 
   return (
