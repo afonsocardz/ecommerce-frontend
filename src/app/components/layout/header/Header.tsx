@@ -9,7 +9,6 @@ import useDisclosure from '@/app/_hooks/useDisclosure';
 import Link from 'next/link';
 import Button from '../../common/Button';
 import useAuth from '@/app/_hooks/useAuth';
-import { useCartContext } from '@/app/_contexts/CartContext';
 import CartMenu from '../../cart/CartMenu';
 
 export default function Header() {
@@ -17,7 +16,7 @@ export default function Header() {
   const disclosure = useDisclosure();
   const openCartMenu = useDisclosure();
 
-  const { data } = useCartContext().getCart;
+  const { data } = useCartProducts().useGetCartProductsQuery();
   const cartItemCount = data ? data.length : 0;
 
   const { mutate } = useAuth().useLogoutQuery();
