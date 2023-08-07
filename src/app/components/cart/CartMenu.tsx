@@ -1,24 +1,34 @@
 'use client';
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import Image from 'next/image';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { DisclosureHook } from '@/app/_hooks/useDisclosure';
-import { useCartContext } from '@/app/_contexts/CartContext';
 import useCartProducts from '@/app/_hooks/useCartProducts';
 import { CartProductResponseData } from '@/interfaces/cartProductInterface';
 import useCheckout from '@/app/_hooks/useCheckout';
+import Button from '../common/Button';
+import { useQueryClient } from '@tanstack/react-query';
+
+function calculateSubtotal(cart: CartProductResponseData[]) {
+  const subtotals = cart.map<number>((item) => item.subtotal);
+  const subtotal =
+    subtotals.length === 0 ? 0 : subtotals.reduce((prev, curr) => prev + curr);
+  return subtotal;
+}
 
 export default function CartMenu({
   open,
   setOpen,
 }: DisclosureHook): React.ReactElement {
-  const { getCart } = useCartContext();
-  const cart = getCart.data ?? [];
+  const client = useQueryClient();
+  const cart =
+    client.getQueryData<CartProductResponseData[]>(['cart-products']) ?? [];
+  const subtotal = calculateSubtotal(cart);
 
-  const subtotals = cart.map<number>((item) => item.subtotal);
-  const subtotal =
-    subtotals.length === 0 ? 0 : subtotals.reduce((prev, curr) => prev + curr);
+  useEffect(() => {
+    if (open) client.refetchQueries(['cart-products']);
+  }, [open]);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -88,17 +98,19 @@ interface CartProductListProps {
 function CartProductList({ cart }: CartProductListProps) {
   const { useRemoveProductQuery } = useCartProducts();
   const removeProduct = useRemoveProductQuery();
+
   return (
     <div className="mt-8">
       <div className="flow-root">
         <ul role="list" className="-my-6 divide-y divide-gray-200">
-          {cart.map(({ Product: product, quantity, id }) => (
+          {cart.map(({ Product: product, quantity }) => (
             <li key={product.id} className="flex py-6">
-              <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+              <div className="h-24 w-24 relative flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                 <Image
                   src={product.imageUrl}
                   alt={product.description}
-                  className="h-full w-full object-cover object-center"
+                  fill
+                  className="object-cover"
                 />
               </div>
 
@@ -116,7 +128,7 @@ function CartProductList({ cart }: CartProductListProps) {
 
                   <div className="flex">
                     <button
-                      onClick={() => removeProduct.mutate(id)}
+                      onClick={() => removeProduct.mutate(product.id)}
                       type="button"
                       className="font-medium text-blue-600 hover:text-blue-500"
                     >
@@ -140,7 +152,7 @@ interface CartCheckoutInfoProps {
 
 function CartCheckoutInfo({ subtotal, setOpen }: CartCheckoutInfoProps) {
   const { useCreateCheckout } = useCheckout();
-  const { mutate } = useCreateCheckout();
+  const { mutate, isLoading } = useCreateCheckout();
 
   function onCreateOrder() {
     mutate();
@@ -156,12 +168,12 @@ function CartCheckoutInfo({ subtotal, setOpen }: CartCheckoutInfoProps) {
         Frete será calculado no checkout
       </p>
       <div className="mt-6">
-        <button
+        <Button
+          text={'Checkout'}
           onClick={onCreateOrder}
           className="flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blue-700"
-        >
-          Checkout
-        </button>
+          loading={isLoading}
+        />
       </div>
       <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
         <p>
