@@ -20,16 +20,27 @@ export async function addCartProduct(body: AddCartProductBody) {
   ).data;
 }
 
-export async function removeCartProduct(cartProductId: number) {
-  return await api.request.delete(`/cart-products/${cartProductId}`, {
+export async function removeCartProduct(productId: number) {
+  return await api.request.delete(`/cart-products/${productId}`, {
     withCredentials: true,
   });
 }
 
-export async function updateCartQty(quantity: number, cartId: number) {
+export async function updateCartQty(quantity: number, productId: number) {
   return await api.request.patch(
-    `/cart-products/${cartId}`,
+    `/cart-products/${productId}`,
     { quantity },
     { withCredentials: true }
   );
+}
+
+export async function getCartProduct(productId: number) {
+  return (
+    await api.request.get<CartProductResponseData>(
+      `/cart-products/${productId}`,
+      {
+        withCredentials: true,
+      }
+    )
+  ).data;
 }
