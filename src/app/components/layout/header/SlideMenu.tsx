@@ -6,6 +6,7 @@ import { DisclosureHook } from '@/app/_hooks/useDisclosure';
 import { useAuthContext } from '@/app/_contexts/AuthContext';
 import Button from '../../common/Button';
 import useAuth from '@/app/_hooks/useAuth';
+import Link from 'next/link';
 
 interface SlideMenuProps extends DisclosureHook {}
 
@@ -79,9 +80,11 @@ export default function SlideMenu({
                             />
                           ) : (
                             <>
-                              <button className="bg-white text-blue-500 px-4 py-2 rounded-lg">
-                                Login
-                              </button>
+                              <Link href={'/sign-in'}>
+                                <button className="bg-white text-blue-500 px-4 py-2 rounded-lg">
+                                  Login
+                                </button>
+                              </Link>
                               <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
                                 Cadastro
                               </button>
