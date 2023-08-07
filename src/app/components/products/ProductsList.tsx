@@ -19,11 +19,11 @@ export default function ProductsList() {
   const query = useProducts();
   const { data, isFetching } = query.useGetAllProducts(search, +page);
 
-  if (isFetching && data.products.length === 0) {
+  if (isFetching) {
     return <h1>Loading</h1>;
   }
 
-  if (data.products.length === 0) {
+  if (data.products.length === 0 && !isFetching) {
     return <h1>Nenhum produto encontrado!</h1>;
   }
 
