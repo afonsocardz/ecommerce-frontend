@@ -9,5 +9,7 @@ export const NOTIFICATION_MESSAGES = {
   },
   error: {
     login: 'Senha ou e-mail incorretos!',
+    email: 'E-mail não pode ser enviado!',
+    payment: 'Erro ao efetuar pagamento!',
   },
 };
