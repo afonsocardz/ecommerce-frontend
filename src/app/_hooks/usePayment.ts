@@ -14,6 +14,7 @@ export default function usePayment() {
       onSuccess: async (data) => {
         toast.success(NOTIFICATION_MESSAGES.success.payment);
         await client.invalidateQueries({ queryKey: ['cart-products'] });
+        await client.resetQueries({ queryKey: ['cart-product'] });
         navigate.push(`/products`);
       },
     });
