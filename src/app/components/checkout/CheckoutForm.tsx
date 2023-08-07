@@ -33,8 +33,6 @@ export default function CheckoutForm({ data }: CheckoutFormProps) {
     deliveryMethods[0]
   );
 
-  const navigate = useRouter();
-
   const { mutate, isLoading } = usePayment().useCreatePayment();
 
   function onSubmitHandler(e: FormEvent<HTMLFormElement>) {
@@ -413,11 +411,12 @@ export default function CheckoutForm({ data }: CheckoutFormProps) {
                 {data.OrderProduct.length > 0 &&
                   data.OrderProduct.map(({ Product: product, quantity }) => (
                     <li key={product.id} className="flex py-6 px-4 sm:px-6">
-                      <div className="flex-shrink-0">
+                      <div className="relative overflow-hidden flex-shrink-0 w-20">
                         <Image
                           src={product.imageUrl}
                           alt={product.description}
-                          className="w-20 rounded-md"
+                          fill={true}
+                          className=" object-cover rounded-md"
                         />
                       </div>
 
