@@ -3,7 +3,6 @@
 import useProducts from '@/app/_hooks/useProducts';
 import ProductItem from './ProductItem';
 import { useSearchParams, useRouter } from 'next/navigation';
-import useCartProducts from '@/app/_hooks/useCartProducts';
 import SignInAlertModal from '../modal/SignInAlertModal';
 import useDisclosure from '@/app/_hooks/useDisclosure';
 
@@ -18,13 +17,9 @@ export default function ProductsList() {
   const page = parseInt(pageParam);
 
   const query = useProducts();
-  const { data, isLoading } = query.useGetAllProducts(search, +page);
+  const { data, isFetching } = query.useGetAllProducts(search, +page);
 
-  const { useGetCartProductsQuery } = useCartProducts();
-  const getCart = useGetCartProductsQuery();
-  const cartSet = new Set(getCart.data?.map((product) => product.productId));
-
-  if (isLoading) {
+  if (isFetching && data.products.length === 0) {
     return <h1>Loading</h1>;
   }
 
@@ -43,7 +38,6 @@ export default function ProductsList() {
           <ProductItem
             key={product.id}
             product={product}
-            cartSet={cartSet}
             setModal={openModal.setOpen}
           />
         ))}

@@ -12,7 +12,7 @@ export default function ProductQtyButtons({
 }: ProductQtyButtonsProps) {
   const { useUpdateProductQtyQuery, useRemoveProductQuery } = useCartProducts();
 
-  const updateCart = useUpdateProductQtyQuery(cartItem.id);
+  const updateCart = useUpdateProductQtyQuery(cartItem.productId);
 
   const removeCart = useRemoveProductQuery();
 
@@ -22,7 +22,7 @@ export default function ProductQtyButtons({
 
   const handleRemove = () => {
     if (cartItem.quantity - 1 === 0) {
-      removeCart.mutate(cartItem.id);
+      removeCart.mutate(cartItem.productId);
     } else {
       updateCart.mutate(cartItem.quantity - 1);
     }
